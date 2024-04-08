@@ -26,6 +26,7 @@ jobs:
           mongodb-username: username
           mongodb-password: password
           mongodb-db: employee-direcotry
+          mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -49,6 +50,7 @@ jobs:
           mongodb-username: username
           mongodb-password: password
           mongodb-db: employee-direcotry
+          mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -72,6 +74,7 @@ jobs:
           mongodb-username: username
           mongodb-password: password
           mongodb-db: employee-direcotry
+          mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
