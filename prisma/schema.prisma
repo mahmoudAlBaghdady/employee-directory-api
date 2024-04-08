@@ -11,18 +11,8 @@ model Department {
   id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Department model with id as ObjectId
   name      String @unique() // Represents the name of the department
   employees Employees[] // Represents an array of employees belonging to the department
-  jobs Jobs[] // Represents an array of sub-departments under the department
   createdAt DateTime @default(now()) // Represents the timestamp when the department record was created
   updatedAt DateTime @updatedAt // Represents the timestamp when the department record was last updated
-}
-
-model Picture {
-  id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Picture model with id as ObjectId
-  url String // Represents the URL of the picture
-  employeeId String @db.ObjectId // Represents the employee's ObjectId associated with the picture
-  employee Employees @relation(fields: [employeeId], references: [id],onDelete: Cascade) // Establishes a relationship with the Employees model
-  createdAt DateTime @default(now()) // Represents the timestamp when the picture record was created
-  updatedAt DateTime @updatedAt // Represents the timestamp when the picture record was last updated
 }
 
 model Location {
@@ -33,28 +23,16 @@ model Location {
   updatedAt DateTime @updatedAt // Represents the timestamp when the location record was last updated
 }
 
-model Jobs {
-  id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Job model with id as ObjectId
-  name      String // Represents the name of the job
-  description String // Represents the description of the job
-  employees Employees[] // Represents an array of employees with this job
-  departmentId String @db.ObjectId // Represents the ObjectId of the department associated with the job
-  department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade) // Establishes a relationship with the Department model
-  createdAt DateTime @default(now()) // Represents the timestamp when the job record was created
-  updatedAt DateTime @updatedAt // Represents the timestamp when the job record was last updated
-}
-
 model Employees {
-   id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Employees model with id as ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Employees model with id as ObjectId
   name      String // Represents the name of the employee
   email     String // Represents the email address of the employee
   departmentId String @db.ObjectId // Represents the ObjectId of the department the employee belongs to
   department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade) // Establishes a relationship with the Department model
   locationId String @db.ObjectId // Represents the ObjectId of the location where the employee works
   location Location @relation(fields: [locationId], references: [id], onDelete: Cascade) // Establishes a relationship with the Location model
-  jobId String @db.ObjectId // Represents the ObjectId of the job role of the employee
-  job Jobs @relation(fields: [jobId], references: [id], onDelete: Cascade) // Establishes a relationship with the Job model
-  picture Picture[] // Represents an array of pictures associated with the employee
+  jobTitle    String   // Represents the job title of the employee as a simple string
+  pictureUrl    String  // Represents the Picture of the employee as a simple string URL
   isFavorite  Boolean  @default(false) // Represents whether the employee is marked as a favorite
   createdAt DateTime @default(now()) // Represents the timestamp when the employee record was created
   updatedAt DateTime @updatedAt // Represents the timestamp when the employee record was last updated
