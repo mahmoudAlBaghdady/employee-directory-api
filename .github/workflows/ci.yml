@@ -23,9 +23,6 @@ jobs:
         uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-version: 6.0
-          mongodb-username: username
-          mongodb-password: password
-          mongodb-db: employee-direcotry
           mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
@@ -47,9 +44,6 @@ jobs:
         uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-version: 6.0
-          mongodb-username: username
-          mongodb-password: password
-          mongodb-db: employee-direcotry
           mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
@@ -71,9 +65,6 @@ jobs:
         uses: supercharge/mongodb-github-action@1.10.0
         with:
           mongodb-version: 6.0
-          mongodb-username: username
-          mongodb-password: password
-          mongodb-db: employee-direcotry
           mongodb-replica-set: test-rs
       - name: Install dependencies
         run: npm ci
