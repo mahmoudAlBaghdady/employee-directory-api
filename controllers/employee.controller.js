@@ -9,7 +9,7 @@ const prisma = require("../db/connection");
 const createEmployee = async (req, res) => {
     const { name, pictureUrl, email, jobTitle, departmentId, locationId} = req.body;
     try {
-        const employee = await prisma.employees.create({
+        const employee = await prisma.employee.create({
             data: {
                 email,
                 name,
@@ -35,7 +35,7 @@ const getEmployees = async (req, res) => {
     const { page, limit } = req.params;
 
     try {
-        const employees = await prisma.employees.findMany({
+        const employees = await prisma.employee.findMany({
             include: {
               department: {
                 select: { name: true },
@@ -46,7 +46,7 @@ const getEmployees = async (req, res) => {
           },
             skip: (page - 1) * limit,
         });
-        const total = await prisma.employees.count();
+        const total = await prisma.employee.count();
         const totalPage = Math.ceil(total / limit);
         res.json({ employees, totalPage });
     } catch (error) {
@@ -63,7 +63,7 @@ const getEmployees = async (req, res) => {
 const getEmployeeById = async (req, res) => {
     const { id } = req.params;
     try {
-        const employee = await prisma.employees.findUnique({
+        const employee = await prisma.employee.findUnique({
           where: { id },
           include: {
             department: {
@@ -89,7 +89,7 @@ const getEmployeeById = async (req, res) => {
 const addIsFavorite = async (req, res) => {
     const { id } = req.params;
     try {
-        const employee = await prisma.employees.update({
+        const employee = await prisma.employee.update({
             where: { id },
             data: { isFavorite: true },
         });
@@ -108,7 +108,7 @@ const addIsFavorite = async (req, res) => {
 const removeIsFavorite = async (req, res) => {
     const { id } = req.params;
     try {
-        const employee = await prisma.employees.update({
+        const employee = await prisma.employee.update({
             where: { id },
             data: { isFavorite: false },
         });
@@ -129,7 +129,7 @@ const getFavorites = async (req, res) => {
     
  const { page, limit } = req.params;
     try {
-        const employees = await prisma.employees.findMany({
+        const employees = await prisma.employee.findMany({
             where: {
                 isFavorite: true,
             },
@@ -144,7 +144,7 @@ const getFavorites = async (req, res) => {
             skip: (page - 1) * limit,
             
         });
-        const total = await prisma.employees.count({
+        const total = await prisma.employee.count({
             where: {
                 isFavorite: true,
             },
@@ -167,7 +167,7 @@ const updateEmployee = async (req, res) => {
     const { id } = req.params;
     const { name, pictureUrl, email, jobTitle, departmentId, locationId} = req.body;
     try {
-        const employee = await prisma.employees.update({
+        const employee = await prisma.employee.update({
             where: { id },
             data: {
                 email,
@@ -193,7 +193,7 @@ const updateEmployee = async (req, res) => {
 const deleteEmployee = async (req, res) => {
     const { id } = req.params;
     try {
-        const employee = await prisma.employees.delete({
+        const employee = await prisma.employee.delete({
             where: { id },
         });
     } catch (error) {
@@ -209,7 +209,7 @@ const deleteEmployee = async (req, res) => {
 const searchEmployee = async (req, res) => {
     const { queryparams } = req.params;
     try {
-        const employees = await prisma.employees.findMany({
+        const employees = await prisma.employee.findMany({
           where: {
             OR: [
               { name: { contains: queryparams, mode: "insensitive" } },

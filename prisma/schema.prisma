@@ -10,7 +10,7 @@ datasource db {
 model Department {
   id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Department model with id as ObjectId
   name      String @unique() // Represents the name of the department
-  employees Employees[] // Represents an array of employees belonging to the department
+  employees Employee[] // Represents an array of employees belonging to the department
   createdAt DateTime @default(now()) // Represents the timestamp when the department record was created
   updatedAt DateTime @updatedAt // Represents the timestamp when the department record was last updated
 }
@@ -18,13 +18,13 @@ model Department {
 model Location {
   id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Location model with id as ObjectId
   name      String // Represents the name of the location
-  employees Employees[] // Represents an array of employees belonging to the location
+  employees Employee[] // Represents an array of employees belonging to the location
   createdAt DateTime @default(now()) // Represents the timestamp when the location record was created
   updatedAt DateTime @updatedAt // Represents the timestamp when the location record was last updated
 }
 
-model Employees {
-  id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Employees model with id as ObjectId
+model Employee {
+  id String @id @default(auto()) @map("_id") @db.ObjectId // Defines Employee model with id as ObjectId
   name      String // Represents the name of the employee
   email     String // Represents the email address of the employee
   departmentId String @db.ObjectId // Represents the ObjectId of the department the employee belongs to
