@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DATABASE_URL: 127.0.0.1:27017
+  DATABASE_URL: mongodb://username:<password>@localhost:27017/employee-directory?authSource=admin
   PORT: 3002
 
 jobs:
@@ -22,7 +22,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-          mongodb-version: 6.0
+        mongodb-version: 6.0
+        mongodb-username: username
+        mongodb-password: password
+        mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -42,7 +45,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-          mongodb-version: 6.0
+        mongodb-version: 6.0
+        mongodb-username: username
+        mongodb-password: password
+        mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -62,7 +68,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-          mongodb-version: 6.0
+        mongodb-version: 6.0
+        mongodb-username: username
+        mongodb-password: password
+        mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
