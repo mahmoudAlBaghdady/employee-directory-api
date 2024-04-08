@@ -1,0 +1,28 @@
+{
+  "name": "employee-backend",
+  "version": "1.0.0",
+  "description": "Employee Management System Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
+    "test": "cross-env NODE_ENV=test jest --watchAll --testTimeout=10000 --verbose",
+    "prisma-push": "prisma db push"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.12.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.12.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^2.0.12",
+    "prisma": "^5.12.1",
+    "supertest": "^6.3.4"
+  }
+}
