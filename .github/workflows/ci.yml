@@ -22,10 +22,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-        mongodb-version: 6.0
-        mongodb-username: username
-        mongodb-password: password
-        mongodb-db: employee-direcotry
+          mongodb-version: 6.0
+          mongodb-username: username
+          mongodb-password: password
+          mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -45,10 +45,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-        mongodb-version: 6.0
-        mongodb-username: username
-        mongodb-password: password
-        mongodb-db: employee-direcotry
+          mongodb-version: 6.0
+          mongodb-username: username
+          mongodb-password: password
+          mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
@@ -68,10 +68,10 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-        mongodb-version: 6.0
-        mongodb-username: username
-        mongodb-password: password
-        mongodb-db: employee-direcotry
+          mongodb-version: 6.0
+          mongodb-username: username
+          mongodb-password: password
+          mongodb-db: employee-direcotry
       - name: Install dependencies
         run: npm ci
       - name: Sync the database
