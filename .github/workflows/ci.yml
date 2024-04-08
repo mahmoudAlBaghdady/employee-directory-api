@@ -1,4 +1,4 @@
-name: test ci-workflow
+name: continuous-integration-workflow
 
 on:
   pull_request:
