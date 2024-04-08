@@ -21,6 +21,8 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm ci
+      - name: Start the server
+        run: npm run start
       - name: Run departments API tests
         run: npm run test:departments
 
@@ -35,6 +37,8 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm ci
+      - name: Start the server
+        run: npm run start
       - name: Run locations API tests
         run: npm run test:locations
 
@@ -49,5 +53,7 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm ci
+      - name: Start the server
+        run: npm run start
       - name: Run employeees API tests
         run: npm run test:employeees
