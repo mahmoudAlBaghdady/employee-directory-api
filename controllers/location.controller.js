@@ -84,6 +84,7 @@ const deleteLocation = async (req, res) => {
       const deleteLocation = await prisma.location.delete({
           where: { id },
       });
+      res.json();
   } catch (error) {
       res.status(400).json({ error: error.message });
   }

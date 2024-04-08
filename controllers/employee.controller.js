@@ -7,7 +7,7 @@ const prisma = require("../db/connection");
  * @returns {Object} - Created employee object.
  */
 const createEmployee = async (req, res) => {
-    const { name, pictureUrl, email, jobTitle, departmentId, locationId} = req.body;
+    const { name, pictureUrl, email, jobTitle, departmentId, locationId, isFavorite } = req.body;
     try {
         const employee = await prisma.employee.create({
             data: {
@@ -16,7 +16,8 @@ const createEmployee = async (req, res) => {
                 departmentId,
                 locationId,
                 jobTitle,
-                pictureUrl
+                pictureUrl,
+                isFavorite // optional - default to false
             }
         });
         res.status(201).json(employee);
@@ -81,44 +82,6 @@ const getEmployeeById = async (req, res) => {
 }
 
 /**
- * Update the isFavorite of an employee with the specified ID.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @returns {Object} - Updated employee object.
- */
-const addIsFavorite = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const employee = await prisma.employee.update({
-            where: { id },
-            data: { isFavorite: true },
-        });
-        res.json(employee);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-/**
- * Update the isFavorite of an employee with the specified ID.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @returns {Object} - Updated employee object.
- */
-
-const removeIsFavorite = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const employee = await prisma.employee.update({
-            where: { id },
-            data: { isFavorite: false },
-        });
-        res.json(employee);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-/**
  * Retrieve a list of all favorite employees.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
@@ -165,7 +128,7 @@ const getFavorites = async (req, res) => {
  */
 const updateEmployee = async (req, res) => {
     const { id } = req.params;
-    const { name, pictureUrl, email, jobTitle, departmentId, locationId} = req.body;
+    const { name, pictureUrl, email, jobTitle, departmentId, locationId, isFavorite} = req.body;
     try {
         const employee = await prisma.employee.update({
             where: { id },
@@ -175,7 +138,8 @@ const updateEmployee = async (req, res) => {
                 departmentId,
                 locationId,
                 jobTitle,
-                pictureUrl
+                pictureUrl,
+                isFavorite
             },
         });
         res.json(employee);
@@ -196,6 +160,8 @@ const deleteEmployee = async (req, res) => {
         const employee = await prisma.employee.delete({
             where: { id },
         });
+
+        res.json();
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -239,8 +205,6 @@ module.exports = {
     createEmployee,
     getEmployees,
     getEmployeeById,
-    addIsFavorite,
-    removeIsFavorite,
     getFavorites,
     updateEmployee,
     deleteEmployee,

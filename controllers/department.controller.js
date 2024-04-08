@@ -81,6 +81,7 @@ const deleteDepartment = async (req, res) => {
         const deleteDepartment = await prisma.department.delete({
             where: { id },
         });
+        res.json();
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

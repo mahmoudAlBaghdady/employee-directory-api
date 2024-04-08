@@ -24,19 +24,20 @@ const validateParams = (schema) => {
 
 // Example Joi schema for validating request body
 const departmentSchema = Joi.object({
-  name: Joi.string().min(3).required(),
+  name: Joi.string().required(),
 });
 const locationSchema = Joi.object({
-  name: Joi.string().min(3).required(),
+  name: Joi.string().required(),
 });
 
 const employeeSchema = Joi.object({
-  name: Joi.string().min(3).required(),
+  name: Joi.string().required(),
   email: Joi.string().email().required(),
   pictureUrl: Joi.string().uri().required(),
-  jobTitle: Joi.string().min(3).required(),
+  jobTitle: Joi.string().required(),
   departmentId: Joi.string().alphanum().required(),
   locationId: Joi.string().alphanum().required(),
+  isFavorite: Joi.boolean(),
 });
 
 const employeeSchemaPagination = Joi.object({

@@ -17,7 +17,7 @@ const {
 router.post("/", validateBody(employeeSchema), createEmployee);
 
 // Retrieve all employees
-router.get("/page/:page/limit/:limit",validateParams(employeeSchemaPagination), getEmployees);
+router.get("/",validateParams(employeeSchemaPagination), getEmployees);
 
 // Retrieve an employee by ID
 router.get("/:id", validateParams(idSchema), getEmployeeById);
@@ -28,14 +28,8 @@ router.patch( "/:id", validateParams(idSchema), validateBody(employeeSchema), up
 // Delete an employee by ID
 router.delete("/:id", validateParams(idSchema), deleteEmployee);
 
-// Add an employee to favorites
-router.patch("/:id/favorite", validateParams(idSchema), addIsFavorite);
-
-// Remove an employee from favorites
-router.patch("/:id/favorite/remove", validateParams(idSchema), removeIsFavorite);
-
 // Retrieve all favorite employees
-router.get("/favorites/all/page/:page/limit/:limit",validateParams(employeeSchemaPagination), getFavorites);
+router.get("/favorites",validateParams(employeeSchemaPagination), getFavorites);
 
 // Search for an employee
 router.get("/search/:queryparms",validateParams(employeeSchemaSearch), searchEmployee);
