@@ -1,0 +1,74 @@
+name: continuous-integration-workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  DATABASE_URL: mongodb://localhost:27017/employee-directory?authSource=admin
+  PORT: 3002
+
+jobs:
+  test-departments-api:
+    name: test-departments-api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: 6.0
+          mongodb-replica-set: test-rs
+      - name: Install dependencies
+        run: npm ci
+      - name: Sync the database
+        run: npm run prisma-push
+      - name: Run departments API tests
+        run: npm run test:departments
+
+  test-locations-api:
+    name: test-locations-api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: 6.0
+          mongodb-replica-set: test-rs
+      - name: Install dependencies
+        run: npm ci
+      - name: Sync the database
+        run: npm run prisma-push
+      - name: Run locations API tests
+        run: npm run test:locations
+
+  test-employees-api:
+    name: test-employees-api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js for use with actions
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: 6.0
+          mongodb-replica-set: test-rs
+      - name: Install dependencies
+        run: npm ci
+      - name: Sync the database
+        run: npm run prisma-push
+      - name: Run employees API tests
+        run: npm run test:employees
