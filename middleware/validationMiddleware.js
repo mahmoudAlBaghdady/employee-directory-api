@@ -47,8 +47,10 @@ const employeeSchemaPagination = Joi.object({
 
 const employeeSchemaSearch = Joi.object({
   queryparms: Joi.string().min(1).required(),
+  page: Joi.number().required(),
+  limit: Joi.number().required()
 });
-
+ 
 // Example Joi schema for validating request parameters
 const idSchema = Joi.object({
   id: Joi.string().alphanum().required(),

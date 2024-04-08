@@ -28,9 +28,9 @@ model Employee {
   name      String // Represents the name of the employee
   email     String // Represents the email address of the employee
   departmentId String @db.ObjectId // Represents the ObjectId of the department the employee belongs to
-  department Department @relation(fields: [departmentId], references: [id], onDelete: Cascade) // Establishes a relationship with the Department model
+  department Department @relation(fields: [departmentId], references: [id]) // Establishes a relationship with the Department model
   locationId String @db.ObjectId // Represents the ObjectId of the location where the employee works
-  location Location @relation(fields: [locationId], references: [id], onDelete: Cascade) // Establishes a relationship with the Location model
+  location Location @relation(fields: [locationId], references: [id]) // Establishes a relationship with the Location model
   jobTitle    String   // Represents the job title of the employee as a simple string
   pictureUrl    String  // Represents the Picture of the employee as a simple string URL
   isFavorite  Boolean  @default(false) // Represents whether the employee is marked as a favorite

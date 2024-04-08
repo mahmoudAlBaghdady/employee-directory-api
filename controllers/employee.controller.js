@@ -13,11 +13,16 @@ const createEmployee = async (req, res) => {
             data: {
                 email,
                 name,
-                departmentId,
-                locationId,
                 jobTitle,
                 pictureUrl,
-                isFavorite // optional - default to false
+                isFavorite, // optional - default to false
+                department: {
+                    connect: { id: departmentId }, // Use the connect operation to link to an existing department
+                },
+                location: {
+                    connect: { id: locationId }, // Use the connect operation to link to an existing location
+                },
+
             }
         });
         res.status(201).json(employee);
@@ -33,27 +38,31 @@ const createEmployee = async (req, res) => {
  * @returns {Array} - Array of employee objects.
  */
 const getEmployees = async (req, res) => {
-    const { page, limit } = req.params;
-
+    let { page, limit } = req.params;
+    page = parseInt(page, 10);
+    limit = parseInt(limit, 10);
     try {
-        const employees = await prisma.employee.findMany({
+        const skip = Math.max(0, (page - 1) * limit);
+        const employees = await prisma.employees.findMany({
             include: {
-              department: {
-                select: { name: true },
-              },
-              location: {
-                select: { name: true },
-              },
-          },
-            skip: (page - 1) * limit,
+                department: {
+                    select: { name: true },
+                },
+                location: {
+                    select: { name: true },
+                },
+            },
+            skip: skip,
+            take: limit, 
         });
-        const total = await prisma.employee.count();
+        const total = await prisma.employees.count();
         const totalPage = Math.ceil(total / limit);
+
         res.json({ employees, totalPage });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
+};
 
 /**
  * Retrieve an employee by its unique identifier.
@@ -90,8 +99,11 @@ const getEmployeeById = async (req, res) => {
 
 const getFavorites = async (req, res) => {
     
- const { page, limit } = req.params;
+    let { page, limit } = req.params;
+    page = parseInt(page, 10);
+    limit = parseInt(limit, 10);
     try {
+        const skip = Math.max(0, (page - 1) * limit);
         const employees = await prisma.employee.findMany({
             where: {
                 isFavorite: true,
@@ -104,7 +116,8 @@ const getFavorites = async (req, res) => {
                     select: { name: true },
                 },
             },
-            skip: (page - 1) * limit,
+            skip: skip,
+            take: limit, 
             
         });
         const total = await prisma.employee.count({
@@ -173,33 +186,65 @@ const deleteEmployee = async (req, res) => {
  * @returns {Array} - Array of employee objects.
  */
 const searchEmployee = async (req, res) => {
-    const { queryparams } = req.params;
+    let { page, limit, queryparams } = req.params;
+    page = parseInt(page, 10);
+    limit = parseInt(limit, 10);
+    const skip = Math.max(0, (page - 1) * limit);
     try {
-        const employees = await prisma.employee.findMany({
-          where: {
-            OR: [
-              { name: { contains: queryparams, mode: "insensitive" } },
-              { email: { contains: queryparams, mode: "insensitive" } },
-              { jobTitle: { contains: queryparams, mode: "insensitive" } },
-              {
+        const employees = await prisma.employees.findMany({
+            where: {
+                OR: [
+                    { name: { contains: queryparams, mode: "insensitive" } },
+                    { email: { contains: queryparams, mode: "insensitive" } },
+                    { jobTitle: { contains: queryparams, mode: "insensitive" } },
+                    {
+                        department: {
+                            name: { contains: queryparams, mode: "insensitive" },
+                        },
+                    },
+                    {
+                        location: {
+                            name: { contains: queryparams, mode: "insensitive" },
+                        },
+                    },
+                ],
+            },
+            include: {
                 department: {
-                  name: { contains: queryparams, mode: "insensitive" },
+                    select: { name: true },
                 },
-              },
-              {
                 location: {
-                  name: { contains: queryparams, mode: "insensitive" },
+                    select: { name: true },
                 },
-              },
-            ],
-          },
+            },
+            skip,
+            take: limit,
         });
-
-        res.json(employees);
+        const total = await prisma.employees.count({
+            where: {
+                OR: [
+                    { name: { contains: queryparams, mode: "insensitive" } },
+                    { email: { contains: queryparams, mode: "insensitive" } },
+                    { jobTitle: { contains: queryparams, mode: "insensitive" } },
+                    {
+                        department: {
+                            name: { contains: queryparams, mode: "insensitive" },
+                        },
+                    },
+                    {
+                        location: {
+                            name: { contains: queryparams, mode: "insensitive" },
+                        },
+                    },
+                ],
+            },
+        });
+        const totalPage = Math.ceil(total / limit);
+        res.json({ employees, totalPage });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-}
+};
 
 module.exports = {
     createEmployee,
