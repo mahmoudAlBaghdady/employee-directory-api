@@ -42,8 +42,8 @@ jobs:
       - name: Run locations API tests
         run: npm run test:locations
 
-  test-employeees-api:
-    name: test-employeees-api
+  test-employees-api:
+    name: test-employees-api
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,5 +55,5 @@ jobs:
         run: npm ci
       - name: Sync the database
         run: npm run prisma-push
-      - name: Run employeees API tests
-        run: npm run test:employeees
+      - name: Run employees API tests
+        run: npm run test:employees
