@@ -22,6 +22,17 @@ const validateParams = (schema) => {
   };
 };
 
+// Middleware function for validating request query parameters using Joi schema
+const validateQuery = (schema) => {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.query);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+    next();
+  };
+};
+
 // Example Joi schema for validating request body
 const departmentSchema = Joi.object({
   name: Joi.string().required(),
@@ -41,14 +52,9 @@ const employeeSchema = Joi.object({
 });
 
 const employeeSchemaPagination = Joi.object({
-  page: Joi.number().required(),
-  limit: Joi.number().required(),
-});
-
-const employeeSchemaSearch = Joi.object({
-  queryparms: Joi.string().min(1).required(),
-  page: Joi.number().required(),
-  limit: Joi.number().required()
+  page: Joi.number(),
+  limit: Joi.number(),
+  search: Joi.string(),
 });
  
 // Example Joi schema for validating request parameters
@@ -59,10 +65,10 @@ const idSchema = Joi.object({
 module.exports = {
   validateBody,
   validateParams,
+  validateQuery,
   departmentSchema,
   locationSchema,
   employeeSchema,
   idSchema,
   employeeSchemaPagination,
-  employeeSchemaSearch,
 };

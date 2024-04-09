@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { createEmployee , getEmployees , addIsFavorite, getFavorites , getEmployeeById,
-  removeIsFavorite, updateEmployee, deleteEmployee, searchEmployee} = require("../controllers/employee.controller")
+const { createEmployee, getEmployees, getFavorites, getEmployeeById, updateEmployee, deleteEmployee} = require("../controllers/employee.controller")
 const {
   validateBody,
   validateParams,
+  validateQuery,
   employeeSchema,
   idSchema,
   employeeSchemaPagination,
-  employeeSchemaSearch,
 } = require("../middleware/validationMiddleware");
 
 
@@ -17,7 +16,7 @@ const {
 router.post("/", validateBody(employeeSchema), createEmployee);
 
 // Retrieve all employees
-router.get("/",validateParams(employeeSchemaPagination), getEmployees);
+router.get("/",validateQuery(employeeSchemaPagination), getEmployees);
 
 // Retrieve an employee by ID
 router.get("/:id", validateParams(idSchema), getEmployeeById);
@@ -30,9 +29,5 @@ router.delete("/:id", validateParams(idSchema), deleteEmployee);
 
 // Retrieve all favorite employees
 router.get("/favorites",validateParams(employeeSchemaPagination), getFavorites);
-
-// Search for an employee
-router.get("/search/:queryparms",validateParams(employeeSchemaSearch), searchEmployee);
-
 
 module.exports = router;
