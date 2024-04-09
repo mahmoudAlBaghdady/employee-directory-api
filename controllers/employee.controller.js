@@ -114,49 +114,6 @@ const getEmployeeById = async (req, res) => {
 }
 
 /**
- * Retrieve a list of all favorite employee.
- * @param {Object} req - Express request object.
- * @param {Object} res - Express response object.
- * @returns {Array} - Array of favorite employee objects.
- */
-
-const getFavorites = async (req, res) => {
-    
-    let { page, limit } = req.params;
-    page = parseInt(page, 10);
-    limit = parseInt(limit, 10);
-    try {
-        const skip = Math.max(0, (page - 1) * limit);
-        const employees = await prisma.employee.findMany({
-            where: {
-                isFavorite: true,
-            },
-            include: {
-                department: {
-                    select: { name: true },
-                },
-                location: {
-                    select: { name: true },
-                },
-            },
-            skip: skip,
-            take: limit, 
-            
-        });
-        const total = await prisma.employee.count({
-            where: {
-                isFavorite: true,
-            },
-
-        });
-        const totalPage = Math.ceil(total / limit);
-        res.json({ employees, totalPage });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-/**
  * Update the details of an employee with the specified ID.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
@@ -208,7 +165,6 @@ module.exports = {
     createEmployee,
     getEmployees,
     getEmployeeById,
-    getFavorites,
     updateEmployee,
     deleteEmployee,
 };
