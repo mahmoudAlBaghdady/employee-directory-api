@@ -63,7 +63,7 @@ describe("GET /api/employee", () => {
   it("should return all employees", async () => {
     const res = await request("http://127.0.0.1:3002").get(`/api/employees`); // Making a GET request to retrieve all employees
     expect(res.statusCode).toBe(200); // Expecting the response status code to be 200 (OK)
-    expect(res.body.length).toBeGreaterThan(0); // Expecting the response body to contain at least one employee
+    expect(res.body.employees.length).toBeGreaterThan(0); // Expecting the response body to contain at least one employee
   });
 });
 
