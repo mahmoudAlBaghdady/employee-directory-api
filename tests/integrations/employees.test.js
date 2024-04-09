@@ -4,19 +4,11 @@ const prisma = require("../../db/connection"); // Importing the Prisma client fo
 
 require("dotenv").config(); // Loading environment variables
 
-async function cleanDatabase() {
-  await prisma.department.deleteMany(); // Deleting all departments
-  await prisma.location.deleteMany(); // Deleting all locations
-  await prisma.employee.deleteMany(); // Deleting all employees
-}
-
 beforeAll(async () => {
   await prisma.$connect();
-  await cleanDatabase();
 });
 
 afterAll(async () => {
-  await cleanDatabase();
   await prisma.$disconnect();
 });
 
@@ -59,13 +51,13 @@ describe("POST /api/employees", () => {
 });
 
 // Test case for retrieving all employees using GET /api/employees
-// describe("GET /api/employee", () => {
-//   it("should return all employees", async () => {
-//     const res = await request("http://127.0.0.1:3002").get(`/api/employees?page=${1}&limit=${10}`); // Making a GET request to retrieve all employees
-//     expect(res.statusCode).toBe(200); // Expecting the response status code to be 200 (OK)
-//     expect(res.body.length).toBeGreaterThan(0); // Expecting the response body to contain at least one employee
-//   });
-// });
+describe("GET /api/employee", () => {
+  it("should return all employees", async () => {
+    const res = await request("http://127.0.0.1:3002").get(`/api/employees`); // Making a GET request to retrieve all employees
+    expect(res.statusCode).toBe(200); // Expecting the response status code to be 200 (OK)
+    expect(res.body.employees.length).toBeGreaterThan(0); // Expecting the response body to contain at least one employee
+  });
+});
 
 // Test case for retrieving a employee by ID using GET /api/employees/:id
 describe("GET /api/employee/:id", () => {
@@ -75,12 +67,12 @@ describe("GET /api/employee/:id", () => {
 
   beforeAll(async () => {
     // Creating a new department
-     department = await prisma.department.create({
+    department = await prisma.department.create({
       data: { name: "Sales" },
     });
 
     // Creating a new location
-     location = await prisma.location.create({
+    location = await prisma.location.create({
       data: { name: "Jbeil" },
     });
 
