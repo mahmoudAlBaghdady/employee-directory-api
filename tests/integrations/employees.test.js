@@ -4,19 +4,11 @@ const prisma = require("../../db/connection"); // Importing the Prisma client fo
 
 require("dotenv").config(); // Loading environment variables
 
-async function cleanDatabase() {
-  await prisma.department.deleteMany(); // Deleting all departments
-  await prisma.location.deleteMany(); // Deleting all locations
-  await prisma.employee.deleteMany(); // Deleting all employees
-}
-
 beforeAll(async () => {
   await prisma.$connect();
-  await cleanDatabase();
 });
 
 afterAll(async () => {
-  await cleanDatabase();
   await prisma.$disconnect();
 });
 
