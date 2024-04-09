@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createEmployee, getEmployees, getFavorites, getEmployeeById, updateEmployee, deleteEmployee} = require("../controllers/employee.controller")
+const { createEmployee, getEmployees, getEmployeeById, updateEmployee, deleteEmployee} = require("../controllers/employee.controller")
 const {
   validateBody,
   validateParams,
@@ -9,7 +9,6 @@ const {
   idSchema,
   employeeSchemaPagination,
 } = require("../middleware/validationMiddleware");
-
 
 
 // Create a new employee
@@ -26,8 +25,5 @@ router.patch( "/:id", validateParams(idSchema), validateBody(employeeSchema), up
 
 // Delete an employee by ID
 router.delete("/:id", validateParams(idSchema), deleteEmployee);
-
-// Retrieve all favorite employees
-router.get("/favorites",validateParams(employeeSchemaPagination), getFavorites);
 
 module.exports = router;
